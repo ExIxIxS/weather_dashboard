@@ -2,11 +2,16 @@ import { configureStore } from '@reduxjs/toolkit';
 import { citiesSliceAPI } from 'src/api/citiesSliceAPI';
 import rootReducer from './reducers';
 import { currentWeatherSliceAPI } from 'src/api/currentWeatherSliceAPI';
+import { forecastSliceAPI } from 'src/api/forecastSliceAPI';
 
 const store = configureStore({
   reducer: rootReducer,
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(citiesSliceAPI.middleware, currentWeatherSliceAPI.middleware),
+    getDefaultMiddleware().concat(
+      citiesSliceAPI.middleware,
+      currentWeatherSliceAPI.middleware,
+      forecastSliceAPI.middleware
+    ),
 });
 
 export type RootState = ReturnType<typeof store.getState>;

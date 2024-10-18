@@ -7,10 +7,20 @@ import { Summary } from 'src/pages/main/components/CityWeatherInfo/components/Su
 import { selectSelectedCity } from 'src/store/slices/selectedCitySlice';
 import { useSelector } from 'react-redux';
 import { useLazyGetCurrentWeatherQuery } from 'src/api/currentWeatherSliceAPI';
+import { useLazyGetForecastQuery } from 'src/api/forecastSliceAPI';
 
 export const CityWeatherInfo: FC = () => {
   const selectedCity = useSelector(selectSelectedCity);
-  const [fetchCurrentWeatherData, { data, isFetching, isError }] = useLazyGetCurrentWeatherQuery();
+  const [
+    fetchCurrentWeatherData,
+    {
+      data: currentWeatherData,
+      isFetching: isFetchingCurrentWeather,
+      isError: isErrorCurrentWeather,
+    },
+  ] = useLazyGetCurrentWeatherQuery();
+  const [fetchForecastData, { data: forecastData, isFetching, isError }] =
+    useLazyGetForecastQuery();
 
   // useEffect(() => console.log('selectedCity changed! -> ', selectedCity?.name), [selectedCity]);
 
@@ -19,7 +29,10 @@ export const CityWeatherInfo: FC = () => {
       return;
     }
 
-    fetchCurrentWeatherData({ lat: selectedCity.lat, lon: selectedCity.lon });
+    const position = { lat: selectedCity.lat, lon: selectedCity.lon };
+
+    fetchCurrentWeatherData(position);
+    fetchForecastData(position);
   }, [selectedCity]);
 
   return (
@@ -29,7 +42,7 @@ export const CityWeatherInfo: FC = () => {
           <SearchPanel />
           <Summary />
         </Stack>
-        <Stack>{data?.main.feels_like}</Stack>
+        <Stack>{currentWeatherData?.main.feels_like}</Stack>
         {isFetching && 'isLoading...'}
         {isError && 'ERROR!!!'}
       </Stack>

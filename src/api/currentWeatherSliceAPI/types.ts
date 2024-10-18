@@ -1,36 +1,4 @@
-import { Position } from 'src/api/types';
-
-type Weather = {
-  id: number;
-  main: string;
-  description: string;
-  icon: string;
-};
-
-type MainWeatherInfo = {
-  temp: number;
-  feels_like: number;
-  temp_min: number;
-  temp_max: number;
-  pressure: number;
-  humidity: number;
-  sea_level: number;
-  grnd_level: number;
-};
-
-type Wind = {
-  speed: number;
-  deg: number;
-  gust: number;
-};
-
-type Rain = {
-  '1h': number;
-};
-
-type Clouds = {
-  all: number;
-};
+import { Clouds, MainWeatherInfo, Position, Rain, Weather, Wind } from 'src/api/types';
 
 type Sys = {
   type: number;
