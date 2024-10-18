@@ -1,15 +1,14 @@
 import { ChangeEvent, useEffect, useRef, useState, type FC } from 'react';
+import { useDispatch } from 'react-redux';
 import { useLazyGetCitiesByNameQuery } from 'src/api/citiesSliceAPI';
-
 import Stack from '@mui/material/Stack';
 import TextField from '@mui/material/TextField';
 import Collapse from '@mui/material/Collapse';
 import List from '@mui/material/List';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
-import type { ResponseCity } from 'src/api/citiesSliceAPI/types';
 import { setSelectedCity } from 'src/store/slices/selectedCitySlice';
-import { useDispatch } from 'react-redux';
+import type { ResponseCity } from 'src/api/citiesSliceAPI/types';
 
 const TIMEOUT_DEBOUNCE = 2000;
 
@@ -19,7 +18,9 @@ export const SearchPanel: FC = () => {
   const [fetchCitiesData, { data, isLoading, isError }] = useLazyGetCitiesByNameQuery();
   const refDebouncedCityNameValue = useRef('');
   const [currentCityName, setCurrentCityName] = useState('');
-  const [currentCityOptions, setCurrentCityOptions] = useState<ResponseCity[]>([]);
+  const [currentCityOptions, setCurrentCityOptions] = useState<(ResponseCity & { id: string })[]>(
+    []
+  );
 
   const handleSelectChange = (event: ChangeEvent<HTMLInputElement>) => {
     const newCityName = event.target.value;
@@ -46,7 +47,9 @@ export const SearchPanel: FC = () => {
   };
 
   useEffect(() => {
-    setCurrentCityOptions(data ? data : []);
+    setCurrentCityOptions(
+      data ? data.map((dataItem) => ({ ...dataItem, id: crypto.randomUUID() })) : []
+    );
   }, [data]);
 
   return (
@@ -70,14 +73,10 @@ export const SearchPanel: FC = () => {
       >
         <List component="div" disablePadding sx={{ position: 'absolute' }}>
           {currentCityOptions.map((city) => {
-            const { name, country, lat, lon } = city;
+            const { id, name, country } = city;
 
             return (
-              <ListItemButton
-                key={`${name}-${country}:${lat}-${lon}`}
-                sx={{ pl: 4 }}
-                onClick={() => handleCitySelect(city)}
-              >
+              <ListItemButton key={id} sx={{ pl: 4 }} onClick={() => handleCitySelect(city)}>
                 <ListItemText primary={name} secondary={country} />
               </ListItemButton>
             );

@@ -8,6 +8,7 @@ import { selectSelectedCity } from 'src/store/slices/selectedCitySlice';
 import { useSelector } from 'react-redux';
 import { useLazyGetCurrentWeatherQuery } from 'src/api/currentWeatherSliceAPI';
 import { useLazyGetForecastQuery } from 'src/api/forecastSliceAPI';
+import { FavoriteCitiesList } from 'src/pages/main/components/CityWeatherInfo/components/FavoriteCitiesList';
 
 export const CityWeatherInfo: FC = () => {
   const selectedCity = useSelector(selectSelectedCity);
@@ -19,6 +20,7 @@ export const CityWeatherInfo: FC = () => {
       isError: isErrorCurrentWeather,
     },
   ] = useLazyGetCurrentWeatherQuery();
+
   const [fetchForecastData, { data: forecastData, isFetching, isError }] =
     useLazyGetForecastQuery();
 
@@ -37,14 +39,21 @@ export const CityWeatherInfo: FC = () => {
 
   return (
     <Paper elevation={20} sx={{ p: 4, minHeight: 600, borderRadius: 12, flex: 1 }}>
-      <Stack sx={{ flexDirection: 'row', gap: 4 }}>
+      <Stack sx={{ flexDirection: 'row', gap: 4, justifyContent: 'space-between' }}>
         <Stack>
           <SearchPanel />
-          <Summary />
+          <Summary
+            city={selectedCity}
+            currentWeather={currentWeatherData}
+            isFetching={isFetchingCurrentWeather}
+            isError={isErrorCurrentWeather}
+          />
         </Stack>
         <Stack>{currentWeatherData?.main.feels_like}</Stack>
         {isFetching && 'isLoading...'}
         {isError && 'ERROR!!!'}
+        <Stack>Forecast</Stack>
+        <FavoriteCitiesList />
       </Stack>
     </Paper>
   );
