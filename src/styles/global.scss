@@ -1,0 +1,28 @@
+@use 'src/styles/normalize';
+
+:root {
+
+  /* Colors: */
+
+
+  /* Font/text values */
+
+}
+
+/* border-box model for all elements */
+
+html {
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+*,
+*::before,
+*::after {
+  -webkit-box-sizing: inherit;
+  box-sizing: inherit;
+}
+
+button:hover {
+  cursor: pointer;
+}
