@@ -1,14 +1,13 @@
 import { type FC } from 'react';
 import { Outlet } from 'react-router-dom';
-
-import styles from './styles.module.scss';
+import Stack from '@mui/material/Stack';
 
 export const Layout: FC = () => {
   return (
-    <div className={styles['app-layout']}>
+    <Stack sx={{ alignItems: 'center' }}>
       <main>
         <Outlet />
       </main>
-    </div>
+    </Stack>
   );
 };
