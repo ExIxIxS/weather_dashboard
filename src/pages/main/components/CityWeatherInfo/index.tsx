@@ -1,4 +1,4 @@
-import { useEffect, type FC } from 'react';
+import { MouseEvent, useEffect, useState, type FC } from 'react';
 import { useSelector } from 'react-redux';
 import { useLazyGetCurrentWeatherQuery } from 'src/api/currentWeatherSliceAPI';
 import { useLazyGetForecastQuery } from 'src/api/forecastSliceAPI';
@@ -13,6 +13,9 @@ const BORDER_RADIUS_RESPONSIVE = { xs: 1, sm: 2, md: 4, xl: 8 };
 
 export const CityWeatherInfo: FC = () => {
   const selectedCity = useSelector(selectSelectedCity);
+
+  const [isShownFavorites, setIsShownFavorites] = useState(true);
+
   const [
     fetchCurrentWeatherData,
     {
@@ -38,6 +41,11 @@ export const CityWeatherInfo: FC = () => {
     fetchForecastData(position);
   }, [selectedCity]);
 
+  const handleSummaryClick = (e: MouseEvent) => {
+    e.stopPropagation();
+    setIsShownFavorites(true);
+  };
+
   return (
     <Paper
       elevation={20}
@@ -51,7 +59,7 @@ export const CityWeatherInfo: FC = () => {
         sx={{
           flexDirection: 'row',
           gap: 4,
-          justifyContent: 'space-between',
+          justifyContent: 'flex-start',
           flexWrap: 'wrap',
         }}
       >
@@ -81,11 +89,11 @@ export const CityWeatherInfo: FC = () => {
             currentWeather={currentWeatherData}
             isFetching={isFetchingCurrentWeather}
             isError={isErrorCurrentWeather}
+            onClickFavorites={handleSummaryClick}
           />
         </Stack>
-        <Stack>{currentWeatherData?.main.feels_like}</Stack>
-        <Stack>Forecast</Stack>
-        <FavoriteCitiesList />
+        <FavoriteCitiesList isShown={isShownFavorites} setIsShown={setIsShownFavorites} />
+        <Stack>Forecast:{currentWeatherData?.main.feels_like}</Stack>
       </Stack>
     </Paper>
   );

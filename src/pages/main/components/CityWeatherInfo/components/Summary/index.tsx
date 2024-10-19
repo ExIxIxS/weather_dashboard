@@ -1,4 +1,4 @@
-import { useMemo, type FC } from 'react';
+import { useMemo, type FC, type MouseEvent } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
@@ -20,9 +20,16 @@ type TProps = {
   currentWeather?: ResponseCurrentWeather;
   isFetching: boolean;
   isError: boolean;
+  onClickFavorites: (e: MouseEvent) => void;
 };
 
-export const Summary: FC<TProps> = ({ city, currentWeather, isFetching, isError }) => {
+export const Summary: FC<TProps> = ({
+  city,
+  currentWeather,
+  isFetching,
+  isError,
+  onClickFavorites,
+}) => {
   const dispatch = useDispatch();
   const favoriteCities = useSelector(selectFavoriteCities);
 
@@ -96,12 +103,12 @@ export const Summary: FC<TProps> = ({ city, currentWeather, isFetching, isError 
                 Sea level: {currentWeather.main.sea_level} m
               </Typography>
             )}
-            <Button variant="outlined" sx={{ mt: 4 }}>
-              Manage favorites
-            </Button>
           </Box>
         </>
       )}
+      <Button variant="outlined" sx={{ mt: 4 }} onClick={onClickFavorites}>
+        Manage favorites
+      </Button>
     </Stack>
   );
 };
