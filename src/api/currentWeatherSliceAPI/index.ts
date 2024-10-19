@@ -1,5 +1,6 @@
 import { createApi } from '@reduxjs/toolkit/query/react';
 import { weatherBaseQuery } from 'src/api/weatherBaseQuery';
+import { UNIT_SYSTEM } from 'src/api/constants';
 import type { Position } from 'src/api/types';
 import type { ResponseCurrentWeather } from 'src/api/currentWeatherSliceAPI/types';
 
@@ -11,7 +12,7 @@ export const currentWeatherSliceAPI = createApi({
   endpoints: (builder) => ({
     getCurrentWeather: builder.query<ResponseCurrentWeather, Position>({
       query: ({ lat, lon }: Position) => ({
-        url: `data/2.5/weather?lat=${lat}&lon=${lon}`,
+        url: `data/2.5/weather?lat=${lat}&lon=${lon}&units=${UNIT_SYSTEM}`,
       }),
     }),
   }),

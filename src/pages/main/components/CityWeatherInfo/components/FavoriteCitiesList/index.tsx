@@ -2,15 +2,14 @@ import { useMemo, type FC } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
-import { removeFavoriteCity, selectFavoriteCities } from 'src/store/slices/favoriteCitiesSlice';
-import type { ResponseCity } from 'src/api/citiesSliceAPI/types';
-
 import List from '@mui/material/List';
 import ListItemText from '@mui/material/ListItemText';
 import ListItem from '@mui/material/ListItem';
-import { setSelectedCity } from 'src/store/slices/selectedCitySlice';
 import IconButton from '@mui/material/IconButton';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
+import { setSelectedCity } from 'src/store/slices/selectedCitySlice';
+import { removeFavoriteCity, selectFavoriteCities } from 'src/store/slices/favoriteCitiesSlice';
+import type { ResponseCity } from 'src/api/citiesSliceAPI/types';
 
 export const FavoriteCitiesList: FC = () => {
   const dispatch = useDispatch();
@@ -30,7 +29,7 @@ export const FavoriteCitiesList: FC = () => {
   };
 
   return (
-    <Stack sx={{ minWidth: 400 }}>
+    <Stack>
       <Typography>Favorite Cities</Typography>
       <List component="div" disablePadding sx={{ position: 'absolute' }}>
         {cityOptions.map(({ id, name, country, lat, lon }) => (

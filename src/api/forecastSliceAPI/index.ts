@@ -1,5 +1,6 @@
 import { createApi } from '@reduxjs/toolkit/query/react';
 import { weatherBaseQuery } from 'src/api/weatherBaseQuery';
+import { UNIT_SYSTEM } from 'src/api/constants';
 import type { Position } from 'src/api/types';
 import type { ResponseForecast } from 'src/api/forecastSliceAPI/types';
 
@@ -11,7 +12,7 @@ export const forecastSliceAPI = createApi({
   endpoints: (builder) => ({
     getForecast: builder.query<ResponseForecast, Position>({
       query: ({ lat, lon }: Position) => ({
-        url: `data/2.5/forecast?lat=${lat}&lon=${lon}&units=metric`,
+        url: `data/2.5/forecast?lat=${lat}&lon=${lon}&units=${UNIT_SYSTEM}`,
       }),
     }),
   }),

@@ -11,12 +11,11 @@ const favoriteCitiesSlice = createSlice({
   name: 'favoriteCities',
   initialState: initialState as InitialState,
   reducers: {
-    addFavoriteCity: (state, action: PayloadAction<ResponseCity>) => {
+    toggleFavoriteCity: (state, action: PayloadAction<ResponseCity>) => {
       const cityId = getCityId(action.payload);
+      const filteredCities = state.filter((city) => getCityId(city) !== cityId);
 
-      if (state.every((city) => getCityId(city) !== cityId)) {
-        state.push(action.payload);
-      }
+      return filteredCities.length === state.length ? [...state, action.payload] : filteredCities;
     },
     removeFavoriteCity: (state, action: PayloadAction<ResponseCity>) => {
       const cityId = getCityId(action.payload);
@@ -28,7 +27,7 @@ const favoriteCitiesSlice = createSlice({
   },
 });
 
-export const { addFavoriteCity, removeFavoriteCity, resetFavoriteCities } =
+export const { toggleFavoriteCity, removeFavoriteCity, resetFavoriteCities } =
   favoriteCitiesSlice.actions;
 
 export const selectFavoriteCities = (state: RootState) => state.favoriteCities;

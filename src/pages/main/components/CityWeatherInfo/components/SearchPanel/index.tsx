@@ -7,6 +7,7 @@ import Collapse from '@mui/material/Collapse';
 import List from '@mui/material/List';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
+import ClickAwayListener from '@mui/material/ClickAwayListener';
 import { setSelectedCity } from 'src/store/slices/selectedCitySlice';
 import type { ResponseCity } from 'src/api/citiesSliceAPI/types';
 
@@ -46,6 +47,10 @@ export const SearchPanel: FC = () => {
     setCurrentCityOptions([]);
   };
 
+  const handleClickAway = () => {
+    setCurrentCityOptions([]);
+  };
+
   useEffect(() => {
     setCurrentCityOptions(
       data ? data.map((dataItem) => ({ ...dataItem, id: crypto.randomUUID() })) : []
@@ -53,36 +58,57 @@ export const SearchPanel: FC = () => {
   }, [data]);
 
   return (
-    <Stack>
-      <TextField
-        label="City name"
-        value={currentCityName}
-        variant="outlined"
-        type="text"
-        sx={{ mb: 3 }}
-        fullWidth
-        error={isError}
-        helperText={isError && 'Error text'}
-        onChange={handleSelectChange}
-        autoComplete={'off'}
-      />
-      <Collapse
-        in={!isLoading && !isError && !!(currentCityOptions.length && currentCityName)}
-        timeout="auto"
-        unmountOnExit
-      >
-        <List component="div" disablePadding sx={{ position: 'absolute' }}>
-          {currentCityOptions.map((city) => {
-            const { id, name, country } = city;
+    <ClickAwayListener onClickAway={handleClickAway}>
+      <Stack sx={{ width: 280, position: 'relative' }}>
+        <TextField
+          label="City name"
+          value={currentCityName}
+          variant="outlined"
+          type="text"
+          sx={{ mb: 3 }}
+          fullWidth
+          error={isError}
+          helperText={isError && 'Error text'}
+          onChange={handleSelectChange}
+          autoComplete={'off'}
+        />
+        <Collapse
+          in={!isLoading && !isError && !!(currentCityOptions.length && currentCityName)}
+          timeout="auto"
+          unmountOnExit
+        >
+          <List
+            component="div"
+            disablePadding
+            sx={{
+              position: 'absolute',
+              width: 280,
+              opacity: 1,
+              backgroundColor: 'rgba(88, 89, 94, 0.92)',
+              borderRadius: 1,
+              zIndex: 1000,
+            }}
+          >
+            {currentCityOptions.map((city) => {
+              const { id, name, country } = city;
 
-            return (
-              <ListItemButton key={id} sx={{ pl: 4 }} onClick={() => handleCitySelect(city)}>
-                <ListItemText primary={name} secondary={country} />
-              </ListItemButton>
-            );
-          })}
-        </List>
-      </Collapse>
-    </Stack>
+              return (
+                <ListItemButton
+                  key={id}
+                  sx={{
+                    pl: 4,
+                    opacity: 1,
+                    borderRadius: 1,
+                  }}
+                  onClick={() => handleCitySelect(city)}
+                >
+                  <ListItemText primary={name} secondary={country} />
+                </ListItemButton>
+              );
+            })}
+          </List>
+        </Collapse>
+      </Stack>
+    </ClickAwayListener>
   );
 };

@@ -1,8 +1,8 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { citiesSliceAPI } from 'src/api/citiesSliceAPI';
-import rootReducer from './reducers';
 import { currentWeatherSliceAPI } from 'src/api/currentWeatherSliceAPI';
 import { forecastSliceAPI } from 'src/api/forecastSliceAPI';
+import rootReducer from './reducers';
 
 const store = configureStore({
   reducer: rootReducer,
