@@ -4,7 +4,7 @@ type Sys = {
   pod: string;
 };
 
-type ForecastItem = {
+export type ForecastItem = {
   dt: number;
   main: MainWeatherInfo;
   weather: Weather[];

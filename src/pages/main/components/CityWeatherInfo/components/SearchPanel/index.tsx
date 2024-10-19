@@ -59,11 +59,11 @@ export const SearchPanel: FC = () => {
 
   return (
     <ClickAwayListener onClickAway={handleClickAway}>
-      <Stack sx={{ width: 280, position: 'relative' }}>
+      <Stack sx={{ width: 250, position: 'relative' }}>
         <TextField
           label="City name"
           value={currentCityName}
-          variant="outlined"
+          variant="standard"
           type="text"
           sx={{ mb: 3 }}
           fullWidth

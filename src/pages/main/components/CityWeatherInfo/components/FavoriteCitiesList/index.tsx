@@ -1,4 +1,4 @@
-import { useMemo, type Dispatch, type SetStateAction, type FC } from 'react';
+import { useMemo, type Dispatch, type SetStateAction, type FC, MouseEvent } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
@@ -30,7 +30,8 @@ export const FavoriteCitiesList: FC<TProps> = ({ isShown, setIsShown }) => {
     dispatch(setSelectedCity(city));
   };
 
-  const handleRemoveFavoriteCity = (city: ResponseCity) => {
+  const handleRemoveFavoriteCity = (e: MouseEvent, city: ResponseCity) => {
+    e.stopPropagation();
     dispatch(removeFavoriteCity(city));
   };
 
@@ -62,7 +63,9 @@ export const FavoriteCitiesList: FC<TProps> = ({ isShown, setIsShown }) => {
               <IconButton
                 edge="end"
                 aria-label="delete"
-                onClick={() => handleRemoveFavoriteCity({ name, country, lat, lon })}
+                onClick={(e: MouseEvent) =>
+                  handleRemoveFavoriteCity(e, { name, country, lat, lon })
+                }
               >
                 <DeleteOutlineIcon />
               </IconButton>

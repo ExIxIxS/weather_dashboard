@@ -6,15 +6,16 @@ import Paper from '@mui/material/Paper';
 import Stack from '@mui/material/Stack';
 import { SearchPanel } from 'src/pages/main/components/CityWeatherInfo/components/SearchPanel';
 import { Summary } from 'src/pages/main/components/CityWeatherInfo/components/Summary';
-import { selectSelectedCity } from 'src/store/slices/selectedCitySlice';
 import { FavoriteCitiesList } from 'src/pages/main/components/CityWeatherInfo/components/FavoriteCitiesList';
+import { Forecast } from 'src/pages/main/components/CityWeatherInfo/components/Forecast';
+import { selectSelectedCity } from 'src/store/slices/selectedCitySlice';
 
 const BORDER_RADIUS_RESPONSIVE = { xs: 1, sm: 2, md: 4, xl: 8 };
 
 export const CityWeatherInfo: FC = () => {
   const selectedCity = useSelector(selectSelectedCity);
 
-  const [isShownFavorites, setIsShownFavorites] = useState(true);
+  const [isShownFavorites, setIsShownFavorites] = useState(false);
 
   const [
     fetchCurrentWeatherData,
@@ -25,10 +26,10 @@ export const CityWeatherInfo: FC = () => {
     },
   ] = useLazyGetCurrentWeatherQuery();
 
-  const [fetchForecastData, { data: forecastData, isFetching, isError }] =
-    useLazyGetForecastQuery();
-
-  // useEffect(() => console.log('selectedCity changed! -> ', selectedCity?.name), [selectedCity]);
+  const [
+    fetchForecastData,
+    { data: forecastData, isFetching: isFetchingForecast, isError: isErrorForecast },
+  ] = useLazyGetForecastQuery();
 
   useEffect(() => {
     if (!selectedCity) {
@@ -93,7 +94,12 @@ export const CityWeatherInfo: FC = () => {
           />
         </Stack>
         <FavoriteCitiesList isShown={isShownFavorites} setIsShown={setIsShownFavorites} />
-        <Stack>Forecast:{currentWeatherData?.main.feels_like}</Stack>
+        <Forecast
+          city={selectedCity}
+          forecast={forecastData}
+          isFetching={isFetchingForecast}
+          isError={isErrorForecast}
+        />
       </Stack>
     </Paper>
   );
