@@ -6,7 +6,9 @@ import { CityWeatherInfo } from 'src/pages/main/components/CityWeatherInfo';
 export const MainPage: FC = () => {
   return (
     <Stack sx={{ py: 4, gap: 4 }}>
-      <Typography variant="h2"> Weather Dashboard</Typography>
+      <Typography variant="h2" component="h1">
+        Weather Dashboard
+      </Typography>
       <CityWeatherInfo />
     </Stack>
   );
