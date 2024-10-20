@@ -1,6 +1,8 @@
-import { type Dispatch, type SetStateAction } from 'react';
-import { type ActiveElement, type ChartEvent } from 'chart.js/dist/types/index';
-import { CHART_OPTIONS } from 'src/pages/main/components/CityWeatherInfo/components/Forecast/constants';
+import {
+  CHART_LABEL_STYLE_PARAMS,
+  CHART_OPTIONS,
+  GRID_TICK_PARAMS,
+} from 'src/pages/main/components/CityWeatherInfo/components/Forecast/constants';
 import type { ForecastItem, ResponseForecast } from 'src/api/forecastSliceAPI/types';
 
 const getForecastData = (forecast?: ResponseForecast, length: number = Infinity) => {
@@ -48,7 +50,6 @@ const getForecastData = (forecast?: ResponseForecast, length: number = Infinity)
 };
 
 export const getChartData = (
-  setCurrentChartPoint: Dispatch<SetStateAction<ForecastItem | null>>,
   chartOption: CHART_OPTIONS | undefined = CHART_OPTIONS.TEMP,
   forecast?: ResponseForecast,
   period?: number
@@ -61,16 +62,9 @@ export const getChartData = (
       {
         label: chartOption,
         data: forecastData[chartOption],
-        border: '2px solid',
-        borderColor: '#C26EB4',
-        backgroundColor: '#E66FD2',
-        pointBackgroundColor: '#E66FD2',
-        pointBorderColor: '#FFFFFF',
-        pointBorderWidth: 1,
-        pointRadius: 5,
-        pointHoverRadius: 6,
         tension: 0.3,
         fill: false,
+        ...CHART_LABEL_STYLE_PARAMS,
       },
     ],
   };
@@ -89,42 +83,14 @@ export const getChartData = (
         grid: {
           display: false,
         },
-        ticks: {
-          font: {
-            family: 'Montserrat',
-            size: 12,
-            style: 'normal',
-            weight: 'normal',
-          },
-          color: '#072635',
-        },
+        ticks: GRID_TICK_PARAMS,
       },
       y: {
-        ticks: {
-          font: {
-            family: 'Montserrat',
-            size: 12,
-            style: 'normal',
-            weight: 'normal',
-          },
-          color: '#072635',
-        },
+        ticks: GRID_TICK_PARAMS,
         type: 'linear',
       },
     },
-    onClick: (_: ChartEvent, elements: ActiveElement[]) => {
-      if (elements.length) {
-        const index = elements[0].index;
-        const currentChartPoint = forecastData.chartPoints[index];
-
-        setCurrentChartPoint(currentChartPoint);
-      }
-    },
   };
-
-  if (forecastData.chartPoints.length) {
-    setCurrentChartPoint(forecastData.chartPoints.at(-1) as ForecastItem);
-  }
 
   return { forecastData, chartData, chartOptions };
 };

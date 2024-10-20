@@ -18,7 +18,6 @@ import {
   NOT_FOUND_MESSAGE,
   TIMEOUT_DEBOUNCE,
 } from 'src/pages/main/components/CityWeatherInfo/components/SearchPanel/constants';
-
 import type { ResponseCity } from 'src/api/citiesSliceAPI/types';
 
 export const SearchPanel: FC = () => {
@@ -91,12 +90,12 @@ export const SearchPanel: FC = () => {
           value={currentCityName}
           variant="standard"
           type="text"
-          sx={{ mb: 3, minHeight: 80 }}
           fullWidth
           error={isError}
           helperText={helperText}
           onChange={handleSelectChange}
           autoComplete={'off'}
+          sx={{ mb: 3, minHeight: 80 }}
           slotProps={{
             input: {
               endAdornment: inputAdornment,
@@ -117,10 +116,11 @@ export const SearchPanel: FC = () => {
             sx={{
               position: 'absolute',
               width: 280,
-              opacity: 1,
-              backgroundColor: 'rgba(88, 89, 94, 0.92)',
+              backgroundColor: 'rgba(88, 89, 94, 0.96)',
               borderRadius: 1,
               zIndex: 1000,
+              boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)',
+              border: '1px solid rgba(255, 255, 255, 0.18)',
             }}
           >
             {currentCityOptions.map((city) => {

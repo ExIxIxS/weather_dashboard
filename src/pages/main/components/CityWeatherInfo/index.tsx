@@ -74,18 +74,20 @@ export const CityWeatherInfo: FC = () => {
               xs: 300,
               sm: 340,
             },
+            minHeight: { xs: 'initial', xl: 800 },
             borderRadius: {
-              xs: '10px 0 0 10px',
-              sm: '20px 0 0 20px',
-              md: '40px 0 0 40px',
-              xl: '80px 0 0 80px',
+              xs: '10px 0 10px 0',
+              sm: '20px 0 20px 0',
+              md: '40px 0 40px 0',
+              xl: '80px 0 0 0',
             },
             p: {
               xs: '10px 10px 10px 10px',
               sm: '20px 10px 20px 20px',
               md: '40px 20px 40px 40px',
-              xl: '80px 20px 80px 80px',
+              xl: '80px 20px 80px 60px',
             },
+            backdropFilter: 'blur(10px)',
           }}
         >
           <SearchPanel />

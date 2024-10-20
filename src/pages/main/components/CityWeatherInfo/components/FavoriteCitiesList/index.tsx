@@ -26,19 +26,20 @@ export const FavoriteCitiesList: FC<TProps> = ({ isShown, setIsShown }) => {
     [cities]
   );
 
+  const handleClickAway = () => {
+    if (isShown) {
+      setIsShown(false);
+    }
+  };
+
   const handleClickItem = (city: ResponseCity) => {
     dispatch(setSelectedCity(city));
+    handleClickAway();
   };
 
   const handleRemoveFavoriteCity = (e: MouseEvent, city: ResponseCity) => {
     e.stopPropagation();
     dispatch(removeFavoriteCity(city));
-  };
-
-  const handleClickAway = () => {
-    if (isShown) {
-      setIsShown(false);
-    }
   };
 
   return (

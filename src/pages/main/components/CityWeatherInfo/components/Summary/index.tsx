@@ -56,7 +56,11 @@ export const Summary: FC<TProps> = ({
         <>
           <Box sx={{ minHeight: 300 }}>
             {isError && <OutlinedAlert>Data fetching error</OutlinedAlert>}
-            {isFetching && <CircularProgress color="inherit" sx={{ my: 4 }} />}
+            {isFetching && (
+              <Stack sx={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
+                <CircularProgress color="inherit" size={80} sx={{ my: 4 }} />
+              </Stack>
+            )}
             {!isFetching && currentWeather && (
               <Stack>
                 <Typography variant="h2" component="p">
