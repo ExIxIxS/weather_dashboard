@@ -11,14 +11,14 @@ const selectedCitySlice = createSlice({
   name: 'selectedCity',
   initialState: initialState as SelectedCityState,
   reducers: {
-    setSelectedCity(currentCity, action: PayloadAction<ResponseCity>) {
+    setSelectedCity: (currentCity, action: PayloadAction<ResponseCity>) => {
       const selectedCity = action.payload;
 
       return !currentCity || getCityId(currentCity) !== getCityId(selectedCity)
         ? selectedCity
         : currentCity;
     },
-    resetSelectedCity() {
+    resetSelectedCity: () => {
       return null;
     },
   },
