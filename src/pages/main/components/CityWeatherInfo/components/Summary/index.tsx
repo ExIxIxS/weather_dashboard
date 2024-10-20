@@ -9,6 +9,9 @@ import { OutlinedAlert } from 'src/components/OutlinedAlert';
 import IconButton from '@mui/material/IconButton';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import ThermostatIcon from '@mui/icons-material/Thermostat';
+import InvertColorsIcon from '@mui/icons-material/InvertColors';
+import WindPowerIcon from '@mui/icons-material/WindPower';
 import { selectFavoriteCities, toggleFavoriteCity } from 'src/store/slices/favoriteCitiesSlice';
 import { getWeatherIconUrlById } from 'src/utils/getWeatherIconUrlById';
 import { getCityId } from 'src/utils/getCityId';
@@ -39,7 +42,9 @@ export const Summary: FC<TProps> = ({
 
   const isFavorite = useMemo(() => {
     return city
-      ? !!favoriteCities.find((favoriteCity) => getCityId(favoriteCity) === getCityId(city))
+      ? !!favoriteCities.find(
+          (favoriteCity: ResponseCity) => getCityId(favoriteCity) === getCityId(city)
+        )
       : false;
   }, [city, favoriteCities]);
 
@@ -63,15 +68,25 @@ export const Summary: FC<TProps> = ({
             )}
             {!isFetching && currentWeather && (
               <Stack>
-                <Typography variant="h2" component="p">
-                  {currentWeather.main.temp} °C
-                </Typography>
-                <Typography variant="h4" component="p">
-                  {currentWeather.main.humidity} %
-                </Typography>
-                <Typography variant="h4" component="p">
-                  {currentWeather.wind.speed} m/s
-                </Typography>
+                <Box>
+                  <ThermostatIcon fontSize="large" />
+                  <Typography variant="h3" component="span">
+                    {currentWeather.main.temp} °C
+                  </Typography>
+                </Box>
+                <Box>
+                  <InvertColorsIcon sx={{ mx: 1 }} />
+                  <Typography variant="h4" component="span">
+                    {currentWeather.main.humidity} %
+                  </Typography>
+                </Box>
+                <Box>
+                  <WindPowerIcon sx={{ mx: 1 }} />
+                  <Typography variant="h4" component="span">
+                    {currentWeather.wind.speed} m/s
+                  </Typography>
+                </Box>
+
                 {weatherData && (
                   <Stack sx={{ flexDirection: 'row', alignItems: 'center' }}>
                     <img

@@ -8,8 +8,8 @@ import { SearchPanel } from 'src/pages/main/components/CityWeatherInfo/component
 import { Summary } from 'src/pages/main/components/CityWeatherInfo/components/Summary';
 import { FavoriteCitiesList } from 'src/pages/main/components/CityWeatherInfo/components/FavoriteCitiesList';
 import { Forecast } from 'src/pages/main/components/CityWeatherInfo/components/Forecast';
-import { selectSelectedCity } from 'src/store/slices/selectedCitySlice';
 import { VideoBackground } from 'src/pages/main/components/CityWeatherInfo/components/VideoBackground';
+import { selectSelectedCity } from 'src/store/slices/selectedCitySlice';
 
 const BORDER_RADIUS_RESPONSIVE = { xs: 1, sm: 2, md: 4, xl: 8 };
 
