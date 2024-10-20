@@ -86,7 +86,6 @@ export const Summary: FC<TProps> = ({
                     {currentWeather.wind.speed} m/s
                   </Typography>
                 </Box>
-
                 {weatherData && (
                   <Stack sx={{ flexDirection: 'row', alignItems: 'center' }}>
                     <img

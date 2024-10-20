@@ -82,7 +82,7 @@ export const Forecast: FC<TProps> = ({ city, forecast, isFetching, isError }) =>
                 sx={{
                   width: { xs: 280, sm: 460, md: 700 },
                   minHeight: { xs: 160, sm: 260, md: 400 },
-                  py: 2,
+                  p: 2,
                   backdropFilter: 'blur(6px)',
                   borderRadius: { xs: 2, lg: 4, xl: 6 },
                 }}

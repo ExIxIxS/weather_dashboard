@@ -9,8 +9,13 @@ import IconButton from '@mui/material/IconButton';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import Drawer from '@mui/material/Drawer';
 import { setSelectedCity } from 'src/store/slices/selectedCitySlice';
-import { removeFavoriteCity, selectFavoriteCities } from 'src/store/slices/favoriteCitiesSlice';
+import {
+  removeFavoriteCity,
+  resetFavoriteCities,
+  selectFavoriteCities,
+} from 'src/store/slices/favoriteCitiesSlice';
 import type { ResponseCity } from 'src/api/citiesSliceAPI/types';
+import Button from '@mui/material/Button';
 
 type TProps = {
   isShown: boolean;
@@ -42,8 +47,18 @@ export const FavoriteCitiesList: FC<TProps> = ({ isShown, setIsShown }) => {
     dispatch(removeFavoriteCity(city));
   };
 
+  const handleDeleteFavorites = () => {
+    dispatch(resetFavoriteCities());
+    handleClickAway();
+  };
+
   return (
-    <Drawer anchor={'right'} open={isShown} onClose={handleClickAway}>
+    <Drawer
+      anchor={'right'}
+      open={isShown}
+      onClose={handleClickAway}
+      sx={{ backdropFilter: 'blur(10px)' }}
+    >
       <Stack sx={{ width: 300, px: 2, py: 4 }}>
         <Typography variant="h4" component="h2" sx={{ mb: 4 }}>
           Favorite Cities
@@ -73,6 +88,7 @@ export const FavoriteCitiesList: FC<TProps> = ({ isShown, setIsShown }) => {
             </ListItemButton>
           ))}
         </List>
+        {!!cityOptions.length && <Button onClick={handleDeleteFavorites}>Delete All</Button>}
       </Stack>
     </Drawer>
   );

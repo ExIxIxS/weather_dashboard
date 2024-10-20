@@ -11,8 +11,6 @@ import { Forecast } from 'src/pages/main/components/CityWeatherInfo/components/F
 import { VideoBackground } from 'src/pages/main/components/CityWeatherInfo/components/VideoBackground';
 import { selectSelectedCity } from 'src/store/slices/selectedCitySlice';
 
-const BORDER_RADIUS_RESPONSIVE = { xs: 1, sm: 2, md: 4, xl: 8 };
-
 export const CityWeatherInfo: FC = () => {
   const selectedCity = useSelector(selectSelectedCity);
 
@@ -55,7 +53,7 @@ export const CityWeatherInfo: FC = () => {
       elevation={20}
       sx={{
         minHeight: 800,
-        borderRadius: BORDER_RADIUS_RESPONSIVE,
+        borderRadius: { xs: 1, sm: 2, md: 4, xl: 8 },
         flex: 1,
         overflow: 'hidden',
         position: 'relative',

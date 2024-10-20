@@ -3,6 +3,7 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import { getVideoUrl } from 'src/pages/main/components/CityWeatherInfo/components/VideoBackground/utils';
+import { FADING_TIMEOUT } from 'src/pages/main/components/CityWeatherInfo/components/VideoBackground/constants';
 
 type TProps = { weatherId?: number };
 
@@ -23,7 +24,7 @@ export const VideoBackground: FC<TProps> = memo(({ weatherId }) => {
           refVideo.current.load();
           setIsFading(false);
         }
-      }, 500);
+      }, FADING_TIMEOUT);
 
       return () => clearTimeout(timeout);
     }

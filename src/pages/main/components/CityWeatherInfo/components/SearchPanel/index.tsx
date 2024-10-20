@@ -111,7 +111,7 @@ export const SearchPanel: FC = () => {
           timeout="auto"
         >
           <List
-            component="div"
+            // component="div"
             disablePadding
             sx={{
               position: 'absolute',
