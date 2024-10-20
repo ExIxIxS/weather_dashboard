@@ -9,6 +9,7 @@ import { Summary } from 'src/pages/main/components/CityWeatherInfo/components/Su
 import { FavoriteCitiesList } from 'src/pages/main/components/CityWeatherInfo/components/FavoriteCitiesList';
 import { Forecast } from 'src/pages/main/components/CityWeatherInfo/components/Forecast';
 import { selectSelectedCity } from 'src/store/slices/selectedCitySlice';
+import { VideoBackground } from 'src/pages/main/components/CityWeatherInfo/components/VideoBackground';
 
 const BORDER_RADIUS_RESPONSIVE = { xs: 1, sm: 2, md: 4, xl: 8 };
 
@@ -54,8 +55,11 @@ export const CityWeatherInfo: FC = () => {
         minHeight: 800,
         borderRadius: BORDER_RADIUS_RESPONSIVE,
         flex: 1,
+        overflow: 'hidden',
+        position: 'relative',
       }}
     >
+      <VideoBackground />
       <Stack
         sx={{
           flexDirection: 'row',

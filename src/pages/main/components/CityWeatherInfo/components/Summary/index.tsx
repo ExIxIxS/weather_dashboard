@@ -46,7 +46,7 @@ export const Summary: FC<TProps> = ({
   const weatherData = currentWeather?.weather.at(0);
 
   return (
-    <Stack sx={{ overflow: 'auto' }}>
+    <Stack sx={{ overflow: 'auto', zIndex: 2 }}>
       {!city && (
         <Typography variant="h5" component="p">
           Choose city

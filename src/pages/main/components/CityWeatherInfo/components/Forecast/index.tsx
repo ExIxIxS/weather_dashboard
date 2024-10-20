@@ -54,7 +54,7 @@ export const Forecast: FC<TProps> = ({ city, forecast, isFetching, isError }) =>
   );
 
   return (
-    <Stack sx={{ overflow: 'auto', p: { xs: 1, sm: 2, md: 4, xl: 8 } }}>
+    <Stack sx={{ overflow: 'auto', p: { xs: 1, sm: 2, md: 4, xl: 8 }, zIndex: 2 }}>
       {city && (
         <Box sx={{ minHeight: 300 }}>
           {isError && <OutlinedAlert>Data fetching error</OutlinedAlert>}
