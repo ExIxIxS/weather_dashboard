@@ -1,27 +1,44 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { ResponseCity } from 'src/api/citiesSliceAPI/types';
-import { RootState } from 'src/store';
 import { getCityId } from 'src/utils/getCityId';
+import { getStorageItem } from 'src/store/utils/getStorageItem';
+import { setStorageItem } from 'src/store/utils/setStorageItem';
+import { isResponseCity } from 'src/api/citiesSliceAPI/utils';
+import { STORAGE_ITEM_TYPE } from 'src/store/constants';
+import type { RootState } from 'src/store';
+import type { ResponseCity } from 'src/api/citiesSliceAPI/types';
 
-type InitialState = ResponseCity[];
+const storageState = getStorageItem(STORAGE_ITEM_TYPE.FAVORITE_CITIES);
 
-const initialState: InitialState = [];
+const initialState: ResponseCity[] =
+  Array.isArray(storageState) && storageState.every((item) => isResponseCity(item))
+    ? storageState
+    : [];
 
 const favoriteCitiesSlice = createSlice({
   name: 'favoriteCities',
-  initialState: initialState as InitialState,
+  initialState: initialState,
   reducers: {
     toggleFavoriteCity: (state, action: PayloadAction<ResponseCity>) => {
       const cityId = getCityId(action.payload);
       const filteredCities = state.filter((city) => getCityId(city) !== cityId);
+      const newFavoriteCities =
+        filteredCities.length === state.length ? [...state, action.payload] : filteredCities;
 
-      return filteredCities.length === state.length ? [...state, action.payload] : filteredCities;
+      setStorageItem(STORAGE_ITEM_TYPE.FAVORITE_CITIES, newFavoriteCities);
+
+      return newFavoriteCities;
     },
     removeFavoriteCity: (state, action: PayloadAction<ResponseCity>) => {
       const cityId = getCityId(action.payload);
-      return state.filter((city) => getCityId(city) !== cityId);
+      const newFavoriteCities = state.filter((city) => getCityId(city) !== cityId);
+
+      setStorageItem(STORAGE_ITEM_TYPE.FAVORITE_CITIES, newFavoriteCities);
+
+      return newFavoriteCities;
     },
     resetFavoriteCities: () => {
+      setStorageItem(STORAGE_ITEM_TYPE.FAVORITE_CITIES, []);
+
       return [];
     },
   },
