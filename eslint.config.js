@@ -55,7 +55,7 @@ export default [{
     "react/jsx-tag-spacing": ["error", { beforeSelfClosing: "always" }],
     "react/jsx-curly-spacing": ["error", { when: "never" }],
     "react/jsx-boolean-value": ["warn", "never"],
-    "react/no-array-index-key": "off",
+    "react/no-array-index-key": "warn",
     "react/jsx-wrap-multilines": ["error"],
     "react/self-closing-comp": [
       "error",
