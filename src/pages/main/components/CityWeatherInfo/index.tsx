@@ -32,6 +32,13 @@ export const CityWeatherInfo: FC = () => {
     { data: forecastData, isFetching: isFetchingForecast, isError: isErrorForecast },
   ] = useLazyGetForecastQuery();
 
+  const currentWeather = currentWeatherData?.weather.at(0);
+
+  const handleSummaryClick = (e: MouseEvent) => {
+    e.stopPropagation();
+    setIsShownFavorites(true);
+  };
+
   useEffect(() => {
     if (!selectedCity) {
       return;
@@ -42,11 +49,6 @@ export const CityWeatherInfo: FC = () => {
     fetchCurrentWeatherData(position);
     fetchForecastData(position);
   }, [selectedCity]);
-
-  const handleSummaryClick = (e: MouseEvent) => {
-    e.stopPropagation();
-    setIsShownFavorites(true);
-  };
 
   return (
     <Paper
@@ -59,7 +61,7 @@ export const CityWeatherInfo: FC = () => {
         position: 'relative',
       }}
     >
-      <VideoBackground />
+      <VideoBackground weatherId={currentWeather?.id} />
       <Stack
         sx={{
           flexDirection: 'row',

@@ -71,15 +71,20 @@ export const Forecast: FC<TProps> = ({ city, forecast, isFetching, isError }) =>
           {isError && <OutlinedAlert>Data fetching error</OutlinedAlert>}
           {!isFetching && !isError && forecast && (
             <>
-              <Typography variant="h3" component="h2" sx={{ mb: 4 }}>
+              <Typography
+                variant="h3"
+                component="h2"
+                sx={{ mb: 4, backdropFilter: 'blur(6px)', display: 'inline-block' }}
+              >
                 5 days forecast
               </Typography>
               <Box
                 sx={{
                   width: { xs: 280, sm: 460, md: 700 },
                   minHeight: { xs: 160, sm: 260, md: 400 },
+                  py: 2,
                   backdropFilter: 'blur(6px)',
-                  borderRadius: 10,
+                  borderRadius: { xs: 2, lg: 4, xl: 6 },
                 }}
               >
                 <Line data={chartData} options={chartOptions as never} />
