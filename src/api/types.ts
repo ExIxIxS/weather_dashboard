@@ -34,3 +34,8 @@ export type Rain = {
 export type Clouds = {
   all: number;
 };
+
+export type ResponseError = {
+  message: string;
+  status?: number;
+};

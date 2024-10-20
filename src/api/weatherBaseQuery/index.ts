@@ -3,6 +3,7 @@ import { BASE_URL_WEATHER_API, URL_API_KEY } from 'src/api/constants';
 import type { BaseQueryFn } from '@reduxjs/toolkit/query';
 import type { AxiosRequestConfig, AxiosError } from 'axios';
 import { METHODS } from 'src/api/constants/http';
+import { ResponseError } from 'src/api/types';
 
 export const weatherBaseQuery =
   (
@@ -33,7 +34,7 @@ export const weatherBaseQuery =
       return {
         error: {
           status: err.response?.status,
-          data: err.response?.data || err.message,
+          message: (err.response?.data as ResponseError)?.message || err.message,
         },
       };
     }

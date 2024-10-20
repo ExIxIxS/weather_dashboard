@@ -1,4 +1,4 @@
-import { ChangeEvent, useEffect, useRef, useState, type FC } from 'react';
+import { useEffect, useMemo, useRef, useState, type FC, type ChangeEvent } from 'react';
 import { useDispatch } from 'react-redux';
 import { useLazyGetCitiesByNameQuery } from 'src/api/citiesSliceAPI';
 import Stack from '@mui/material/Stack';
@@ -8,15 +8,23 @@ import List from '@mui/material/List';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
 import ClickAwayListener from '@mui/material/ClickAwayListener';
+import InputAdornment from '@mui/material/InputAdornment';
+import TravelExploreIcon from '@mui/icons-material/TravelExplore';
+import CircularProgress from '@mui/material/CircularProgress';
 import { setSelectedCity } from 'src/store/slices/selectedCitySlice';
-import type { ResponseCity } from 'src/api/citiesSliceAPI/types';
+import { isResponseError } from 'src/api/utils';
+import {
+  DEFAULT_ERROR_MESSAGE,
+  NOT_FOUND_MESSAGE,
+  TIMEOUT_DEBOUNCE,
+} from 'src/pages/main/components/CityWeatherInfo/components/SearchPanel/constants';
 
-const TIMEOUT_DEBOUNCE = 2000;
+import type { ResponseCity } from 'src/api/citiesSliceAPI/types';
 
 export const SearchPanel: FC = () => {
   const dispatch = useDispatch();
 
-  const [fetchCitiesData, { data, isLoading, isError }] = useLazyGetCitiesByNameQuery();
+  const [fetchCitiesData, { data, isFetching, isError, error }] = useLazyGetCitiesByNameQuery();
   const refDebouncedCityNameValue = useRef('');
   const [currentCityName, setCurrentCityName] = useState('');
   const [currentCityOptions, setCurrentCityOptions] = useState<(ResponseCity & { id: string })[]>(
@@ -57,6 +65,24 @@ export const SearchPanel: FC = () => {
     );
   }, [data]);
 
+  const inputAdornment = (
+    <InputAdornment position="end" aria-label="search status" sx={{ my: 1 }}>
+      {isFetching ? <CircularProgress color="inherit" size={24} /> : <TravelExploreIcon />}
+    </InputAdornment>
+  );
+
+  const helperText = useMemo(() => {
+    if (isError) {
+      return isResponseError(error) ? error.message.split('.')[0] : DEFAULT_ERROR_MESSAGE;
+    }
+
+    if (currentCityName && !isFetching && data && data.length === 0) {
+      return NOT_FOUND_MESSAGE;
+    }
+
+    return '';
+  }, [error, isError, isFetching, currentCityName, data]);
+
   return (
     <ClickAwayListener onClickAway={handleClickAway}>
       <Stack sx={{ width: 250, position: 'relative' }}>
@@ -65,17 +91,25 @@ export const SearchPanel: FC = () => {
           value={currentCityName}
           variant="standard"
           type="text"
-          sx={{ mb: 3 }}
+          sx={{ mb: 3, minHeight: 80 }}
           fullWidth
           error={isError}
-          helperText={isError && 'Error text'}
+          helperText={helperText}
           onChange={handleSelectChange}
           autoComplete={'off'}
+          slotProps={{
+            input: {
+              endAdornment: inputAdornment,
+            },
+          }}
         />
         <Collapse
-          in={!isLoading && !isError && !!(currentCityOptions.length && currentCityName)}
+          in={
+            !isFetching &&
+            !isError &&
+            !!(data?.length && currentCityOptions.length && currentCityName)
+          }
           timeout="auto"
-          unmountOnExit
         >
           <List
             component="div"
