@@ -3,6 +3,7 @@
     "baseUrl": ".",
     "target": "ESNext",
     "lib": ["DOM", "DOM.Iterable", "ESNext"],
+    "types": ["jest", "node"],
     "module": "ESNext",
     "skipLibCheck": true,
     "allowJs": false,
@@ -24,6 +25,6 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["src", "__tests__"],
+  "include": ["src", "__tests__",  "setupTests.ts"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
