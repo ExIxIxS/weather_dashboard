@@ -6,4 +6,4 @@ export enum VIDEO_FILE_NAMES {
   SUN = '19784309/19784309-uhd_1440_2558_24fps',
 }
 
-export const FADING_TIMEOUT = 500;
+export const FADING_TIMEOUT = 2000;

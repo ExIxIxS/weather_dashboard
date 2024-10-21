@@ -2,7 +2,7 @@ import { memo, useEffect, useRef, useState, type FC } from 'react';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
-import { getVideoUrl } from 'src/pages/main/components/CityWeatherInfo/components/VideoBackground/utils';
+import { getVideoParams } from 'src/pages/main/components/CityWeatherInfo/components/VideoBackground/utils';
 import { FADING_TIMEOUT } from 'src/pages/main/components/CityWeatherInfo/components/VideoBackground/constants';
 
 type TProps = { weatherId?: number };
@@ -13,7 +13,7 @@ export const VideoBackground: FC<TProps> = memo(({ weatherId }) => {
   const refVideo = useRef<HTMLVideoElement | null>(null);
   const [isFading, setIsFading] = useState(false);
 
-  const videoUrl = getVideoUrl(weatherId);
+  const { url: videoUrl, background: videoBackground } = getVideoParams(weatherId);
 
   useEffect(() => {
     if (refVideo.current) {
@@ -34,23 +34,31 @@ export const VideoBackground: FC<TProps> = memo(({ weatherId }) => {
     <Box
       sx={{
         position: 'absolute',
-        transition: 'opacity 1s ease',
-        opacity: isFading ? 0.5 : 1,
+        background: videoBackground,
+        width: '100%',
+        minHeight: 1920,
       }}
     >
-      <video
-        ref={refVideo}
-        width={matchesMd ? '100%' : 'auto'}
-        height={matchesMd ? '' : 1920}
-        controls={false}
-        autoPlay
-        loop
-        preload="metadata"
-        muted
+      <Box
+        sx={{
+          transition: 'opacity 2s ease',
+          opacity: isFading ? 0.3 : 1,
+        }}
       >
-        <source src={videoUrl} type="video/mp4" />
-        Your browser does not support the video tag.
-      </video>
+        <video
+          ref={refVideo}
+          width={matchesMd ? '100%' : 'auto'}
+          height={matchesMd ? '' : 1920}
+          controls={false}
+          autoPlay
+          loop
+          preload="metadata"
+          muted
+        >
+          <source src={videoUrl} type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
+      </Box>
     </Box>
   );
 });
