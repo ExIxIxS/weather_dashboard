@@ -60,10 +60,10 @@ export const Forecast: FC<TProps> = ({ city, forecast, isFetching, isError }) =>
             flexDirection: 'row',
             justifyContent: 'center',
             alignItems: 'center',
-            minHeight: 300,
+            minHeight: { xs: 0, md: 300 },
           }}
         >
-          <CircularProgress color="inherit" size={80} sx={{ my: 4 }} />
+          <CircularProgress color="inherit" size={80} sx={{ my: { xs: 1, md: 4 } }} />
         </Stack>
       )}
       {city && (
